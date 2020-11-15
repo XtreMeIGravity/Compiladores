@@ -1,0 +1,24 @@
+AF1  puras a o (termina en bb estrictamente y solo dos b)
+aaaaaaaa                  aaaaaaaaaaaaabb      bb
+
+AF2
+termina en 11
+
+AF3
+el del ejemplo
+
+AF4
+b 
+ba
+bab
+baba
+babab
+bababa
+...contienen
+
+
+
+AF5
+CONTIENEN SABADE;A 01
+
+AF6
