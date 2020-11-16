@@ -12,16 +12,26 @@ def LeeArchivo(Estados,Alfabeto,EI,EF,TablaTrans,nombreArchivo):
 
 def ProcesaCadena(Cadena,Estados,Alfabeto,EI,EF,TablaT,EA,Camino,IndiceCadena):
     global CaminosValidos
-    if IndiceCadena>(len(Cadena)-1):
-        if EA in EF:
-            CaminosValidos.append(Camino[::])
-        return 
+    bandera = False
+    if IndiceCadena>(len(Cadena)-1) and (EA in EF):#cOMPLETA LA LONGITUD pero no necesariamente cuando la completa es la final
+        CaminosValidos.append(Camino[::])
     else:
-        c=Cadena[IndiceCadena]
+        if IndiceCadena < len(Cadena):
+            c=Cadena[IndiceCadena]
+        else:
+            c=None
         for f in TablaT:
-            if c == f[1] and EA == f[0]:
-                Camino[IndiceCadena]=f[0]+"-"+f[1]+"->"+f[2]
-                ProcesaCadena(Cadena,Estados,Alfabeto,EI,EF,TablaT,f[2],Camino,IndiceCadena+1)
+            if bandera:
+                Camino.pop()
+                bandera=False
+            if (c == f[1] and EA == f[0]) or ("E" == f[1] and EA == f[0]):  #agrega transiciones epsilon
+                Camino.append(f[0]+"-"+f[1]+"->"+f[2])
+                print(f[0]+"-"+f[1]+"->"+f[2])
+                bandera = True
+                if("E" == f[1]):#busca los caminos pa la transicion epsilon
+                    ProcesaCadena(Cadena,Estados,Alfabeto,EI,EF,TablaT,f[2],Camino[::],IndiceCadena)
+                else:
+                    ProcesaCadena(Cadena,Estados,Alfabeto,EI,EF,TablaT,f[2],Camino[::],IndiceCadena+1)
 
 print(">>>>>>>>>>>>>>>>>>>Programa AFN<<<<<<<<<<<<<<<<<<<")#Titulo
 #5 tupla de componentes de un AF
@@ -46,8 +56,9 @@ for x in TablaTrans:
 print("Introduce una cadena")
 Cadena=input()
 print("Cadena:"+Cadena)
-Camino=[None]*len(Cadena)
-ProcesaCadena(Cadena,Estados,Alfabeto,EI,EF,TablaTrans,EA,Camino,0)
+#Camino=[None]*len(Cadena)
+Camino=[]
+ProcesaCadena(Cadena,Estados,Alfabeto,EI,EF,TablaTrans,EA,Camino[::],0)
 #FINAL ACEPTACION O RECHAZO DE CADENA
 if len(CaminosValidos)>0:
     print(">>>>Cadena Aceptada<<<<")
