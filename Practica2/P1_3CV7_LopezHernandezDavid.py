@@ -13,15 +13,15 @@ def LeeArchivo(Estados,Alfabeto,EI,EF,TablaTrans,nombreArchivo):
 def ProcesaCadena(Cadena,Estados,Alfabeto,EI,EF,TablaT,EA,Camino,IndiceCadena):
     global CaminosValidos
     bandera = False
-    if IndiceCadena>(len(Cadena)-1) and (EA in EF):#cOMPLETA LA LONGITUD pero no necesariamente cuando la completa es la final
+    if IndiceCadena>(len(Cadena)-1) and (EA in EF):#si ya se recorrio la cadena y ademas el estado actual es de aceptacion , lo agrega a un camino valido
         CaminosValidos.append(Camino[::])
     else:
-        if IndiceCadena < len(Cadena):
+        if IndiceCadena < len(Cadena):#si es un caracter toma el indice valido
             c=Cadena[IndiceCadena]
-        else:
+        else:#cuando ya acabo la cadena pero no necesariamente es estado de aceptaciones , sigue buscando transiciones via epsilon por lo que asignamos none al valor del caracter
             c=None
         for f in TablaT:
-            if bandera:
+            if bandera:#esta bandera esta para borrar el ultimo elemento de un camino almacenado ya que si recorrio el for agrego un camino en la primera iteracion por ejemplo y para la segunda tiene que borrar ese ultimo elemento , esto no afecta la funcion ya que mandamos una copia de la lista , no  la misma lista
                 Camino.pop()
                 bandera=False
             if (c == f[1] and EA == f[0]) or ("E" == f[1] and EA == f[0]):  #agrega transiciones epsilon
